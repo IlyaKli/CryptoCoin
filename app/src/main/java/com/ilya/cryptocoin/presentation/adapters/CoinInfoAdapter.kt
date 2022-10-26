@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso
 class CoinInfoAdapter(private val context: Context) :
     ListAdapter<CoinInfo, CoinInfoViewHolder>(CoinInfoDiffCallback) {
 
-    var onCoinClickListener: OnCoinClickListener? = null
+    lateinit var onCoinClickListener: (coinPriceInfo: CoinInfo) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinInfoViewHolder {
         val binding = ItemCoinInfoBinding.inflate(
@@ -36,13 +36,9 @@ class CoinInfoAdapter(private val context: Context) :
                     String.format(lastUpdateTemplate, lastUpdate)
                 Picasso.get().load(imageUrl).into(ivLogoCoin)
                 root.setOnClickListener {
-                    onCoinClickListener?.onCoinClick(this)
+                    onCoinClickListener.invoke(coin)
                 }
             }
         }
-    }
-
-    interface OnCoinClickListener {
-        fun onCoinClick(coinPriceInfo: CoinInfo)
     }
 }
