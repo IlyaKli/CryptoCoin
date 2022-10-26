@@ -41,7 +41,7 @@ class CoinPriceListActivity : AppCompatActivity() {
         }
     }
 
-    private fun launchFragment(it: CoinInfo) {
+    private fun launchCoinDetailFragment(it: CoinInfo) {
         supportFragmentManager.popBackStack()
         supportFragmentManager.beginTransaction()
             .replace(R.id.coinDetailContainer, CoinDetailFragment.newInstance(it.fromSymbol))
@@ -49,15 +49,19 @@ class CoinPriceListActivity : AppCompatActivity() {
             .commit()
     }
 
+    private fun startCoinDetailActivity(it: CoinInfo) {
+        val intent = CoinDetailActivity.newIntent(
+            this@CoinPriceListActivity,
+            it
+        )
+        startActivity(intent)
+    }
+
     private fun coinClickListener(it: CoinInfo) {
         if (isHorizontalOrientation()) {
-            launchFragment(it)
+            launchCoinDetailFragment(it)
         } else {
-            val intent = CoinDetailActivity.newIntent(
-                this@CoinPriceListActivity,
-                it
-            )
-            startActivity(intent)
+            startCoinDetailActivity(it)
         }
     }
 }

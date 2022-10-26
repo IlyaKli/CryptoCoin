@@ -18,15 +18,6 @@ class CoinDetailFragment : Fragment() {
     private val binding: FragmentCoinDetailBinding
         get() = _binding ?: throw RuntimeException("FragmentCoinDetailBinding == null")
 
-    private var fromSymbol: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            fromSymbol = it.getString(EXTRA_FROM_SYMBOL)
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -37,7 +28,7 @@ class CoinDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getDetailInfo(fromSymbol!!).observe(viewLifecycleOwner) {
+        viewModel.getDetailInfo(getSymbol()).observe(viewLifecycleOwner) {
             with(binding) {
                 tvPrice.text = it.price
                 tvMinPrice.text = it.lowDay
@@ -51,8 +42,18 @@ class CoinDetailFragment : Fragment() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    fun getSymbol(): String {
+        return requireArguments().getString(EXTRA_FROM_SYMBOL, EMPTY_SYMBOL)
+    }
+
     companion object {
         const val EXTRA_FROM_SYMBOL = "from_symbol"
+        private const val EMPTY_SYMBOL = ""
 
         fun newInstance(fromSymbol: String) =
             CoinDetailFragment().apply {

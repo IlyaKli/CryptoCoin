@@ -4,12 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.ilya.cryptocoin.R
 import com.ilya.cryptocoin.databinding.ActivityCoinDetailBinding
-import com.ilya.cryptocoin.databinding.FragmentCoinDetailBinding
 import com.ilya.cryptocoin.domain.CoinInfo
-import com.squareup.picasso.Picasso
 
 class CoinDetailActivity : AppCompatActivity() {
 
@@ -20,7 +17,9 @@ class CoinDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
         val coin = intent.getParcelableExtra<CoinInfo>(EXTRA_COIN_INFO)
             ?: throw RuntimeException("Coin extra == null")
-        launchFragment(coin)
+        if (savedInstanceState == null) {
+            launchFragment(coin)
+        }
     }
 
     private fun launchFragment(it: CoinInfo) {
