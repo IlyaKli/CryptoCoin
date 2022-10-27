@@ -12,5 +12,5 @@ object ApiFactory {
         .baseUrl(BASE_URL)
         .build()
 
-    val apiService = retrofit.create(ApiService::class.java)
+    val apiService = retrofit.create(ApiService::class.java) ?: throw RuntimeException("Error create Api Service in Api Factory")
 }
