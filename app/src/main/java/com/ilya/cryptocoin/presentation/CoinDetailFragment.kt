@@ -47,7 +47,7 @@ class CoinDetailFragment : Fragment() {
         _binding = null
     }
 
-    fun getSymbol(): String {
+    private fun getSymbol(): String {
         return requireArguments().getString(EXTRA_FROM_SYMBOL, EMPTY_SYMBOL)
     }
 
