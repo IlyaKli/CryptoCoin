@@ -1,6 +1,6 @@
 # CryptoCoin - is an application that allows you to keep track of up-to-date information on crypto-currencies, even when there is no Internet, because the data is updated every 10 seconds.
 
-# Stack - Clean Architecture, MVVM, Coroutines, Room, Retrofit, Service (Work Manager), Crypto Compare API
+# Stack - Clean Architecture, DI - Dagger 2, MVVM, Coroutines, Room, Retrofit, Service (Work Manager), Crypto Compare API
 
 # Start Activiti - coin list
 
