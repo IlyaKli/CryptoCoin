@@ -3,17 +3,20 @@ package com.ilya.cryptocoin.data.workers
 import android.content.Context
 import androidx.work.*
 import com.ilya.cryptocoin.data.database.AppDatabase
+import com.ilya.cryptocoin.data.database.CoinInfoDao
 import com.ilya.cryptocoin.data.mapper.CoinMapper
 import com.ilya.cryptocoin.data.network.ApiFactory
+import com.ilya.cryptocoin.data.network.ApiService
 import kotlinx.coroutines.delay
 
-class CoinInfoWorker(context: Context, workerParams: WorkerParameters) :
+class CoinInfoWorker(
+    context: Context,
+    workerParams: WorkerParameters,
+    private val coinInfoDao: CoinInfoDao,
+    private val apiService: ApiService,
+    private val mapper: CoinMapper
+) :
     CoroutineWorker(context, workerParams) {
-
-
-    private val coinInfoDao = AppDatabase.getInstance(context).coinPriceInfoDao()
-    private val apiService = ApiFactory.apiService
-    private val mapper = CoinMapper()
 
     override suspend fun doWork(): Result {
         while (true) {
