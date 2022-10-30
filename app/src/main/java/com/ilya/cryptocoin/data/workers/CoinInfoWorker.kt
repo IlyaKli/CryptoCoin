@@ -2,19 +2,18 @@ package com.ilya.cryptocoin.data.workers
 
 import android.content.Context
 import androidx.work.*
-import com.ilya.cryptocoin.data.database.AppDatabase
 import com.ilya.cryptocoin.data.database.CoinInfoDao
 import com.ilya.cryptocoin.data.mapper.CoinMapper
-import com.ilya.cryptocoin.data.network.ApiFactory
 import com.ilya.cryptocoin.data.network.ApiService
 import kotlinx.coroutines.delay
+import javax.inject.Inject
 
 class CoinInfoWorker(
     context: Context,
     workerParams: WorkerParameters,
     private val coinInfoDao: CoinInfoDao,
     private val apiService: ApiService,
-    private val mapper: CoinMapper
+    private val mapper: CoinMapper,
 ) :
     CoroutineWorker(context, workerParams) {
 
@@ -38,6 +37,16 @@ class CoinInfoWorker(
 
         fun workRequest(): OneTimeWorkRequest {
             return OneTimeWorkRequestBuilder<CoinInfoWorker>().build()
+        }
+    }
+
+    class Factory @Inject constructor(
+        private val coinInfoDao: CoinInfoDao,
+        private val apiService: ApiService,
+        private val mapper: CoinMapper,
+    ) : ChildWorkerFactory {
+        override fun create(context: Context, workerParams: WorkerParameters): ListenableWorker {
+            return CoinInfoWorker(context, workerParams, coinInfoDao, apiService, mapper)
         }
     }
 }
