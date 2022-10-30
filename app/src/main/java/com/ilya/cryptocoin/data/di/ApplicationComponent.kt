@@ -1,0 +1,21 @@
+package com.ilya.cryptocoin.data.di
+
+import android.app.Application
+import com.ilya.cryptocoin.presentation.CoinDetailFragment
+import com.ilya.cryptocoin.presentation.CoinPriceListActivity
+import dagger.BindsInstance
+import dagger.Component
+
+@Component(modules = [DataModule::class, ViewModelModule::class])
+interface ApplicationComponent {
+
+    fun inject(activity: CoinPriceListActivity)
+
+    fun inject(fragment: CoinDetailFragment)
+
+    @Component.Factory
+    interface Factory {
+
+        fun crate(@BindsInstance application: Application): ApplicationComponent
+    }
+}
