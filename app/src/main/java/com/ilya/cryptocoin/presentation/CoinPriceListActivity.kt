@@ -7,15 +7,26 @@ import com.ilya.cryptocoin.R
 import com.ilya.cryptocoin.databinding.ActivityCoinPrceListBinding
 import com.ilya.cryptocoin.domain.CoinInfo
 import com.ilya.cryptocoin.presentation.adapters.CoinInfoAdapter
+import javax.inject.Inject
 
 class CoinPriceListActivity : AppCompatActivity() {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val viewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
+    }
+
     private val binding by lazy { ActivityCoinPrceListBinding.inflate(layoutInflater) }
     private val adapter by lazy { CoinInfoAdapter(this) }
-    private val viewModel by lazy { ViewModelProvider(this)[CoinViewModel::class.java] }
+
+    private val component by lazy { (application as CoinApp).component }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        component.inject(this)
+
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
